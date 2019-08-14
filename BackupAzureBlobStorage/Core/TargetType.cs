@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
-namespace BackupAzureBlobStorage
+namespace BackupAzureBlobStorage.Core
 {
     public enum TargetType
     {

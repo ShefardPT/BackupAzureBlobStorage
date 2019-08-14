@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using BackupAzureBlobStorage.Core;
+using BackupAzureBlobStorage.Services;
 
 namespace BackupAzureBlobStorage
 {
