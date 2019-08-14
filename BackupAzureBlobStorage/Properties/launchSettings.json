@@ -2,7 +2,7 @@
   "profiles": {
     "BackupAzureBlobStorage": {
       "commandName": "Project",
-      "commandLineArgs": "--accname=name --acckey=key --a f --b = rr"
+      "commandLineArgs": "--accname=name --acckey=key --a f --b = rr --help --target=blob"
     }
   }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace BackupAzureBlobStorage
@@ -8,12 +9,35 @@ namespace BackupAzureBlobStorage
     {
         static void Main(string[] args)
         {
-            ArgumentsList.Init(args);
+            try
+            {
+                ArgumentsList.Init(args);
+            }
+            catch (InvalidEnumArgumentException)
+            {
+                Console.WriteLine("Cannot recognize parameters.");
+                return;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
+
+            if (ArgumentsList.DoShowHelp)
+            {
+                new HelpInfoShower().ShowHelp();
+                return;
+            }
 
 
 
 
-            Console.WriteLine("Hello World!");
+
+
+
+
+            Console.ReadLine();
         }
 
     }
