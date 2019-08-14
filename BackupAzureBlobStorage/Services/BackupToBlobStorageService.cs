@@ -1,12 +1,27 @@
 ﻿using System;
+using System.IO;
 
 namespace BackupAzureBlobStorage.Services
 {
-    public class BackupToBlobStorageService : IBackupService
+    public class BackupToBlobStorageService : BackupService
     {
-        public bool BackupStorage(string accountName, string accountKey, string target)
+        public BackupToBlobStorageService(string accountName, string accountKey)
+            : base(accountName, accountKey)
         {
-            throw new NotImplementedException();
+        }
+
+        public override bool BackupStorage
+            (string target)
+        {
+            var storageUri = StorageAccount.BlobStorageUri;
+            var SASToken = GetSharedAccessSignature();
+
+            var arguments = $"cp \"{storageUri.PrimaryUri}{SASToken}\" \"{target}\" --recursive\"";
+
+            // TODO THIS NEED TESTS BEFORE
+            //Process.Start(Azcopy.FullName, arguments);
+
+            return true;
         }
     }
 }

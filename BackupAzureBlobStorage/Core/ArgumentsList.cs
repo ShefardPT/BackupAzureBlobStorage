@@ -6,6 +6,12 @@ namespace BackupAzureBlobStorage.Core
 {
     public static class ArgumentsList
     {
+        public static string AccountName { get; private set; }
+        public static string AccountKey { get; private set; }
+        public static TargetType Target { get; private set; }
+        public static string TargetPath { get; private set; }
+        public static bool DoShowHelp { get; private set; }
+
         public static Dictionary<string, string> ArgsList = new Dictionary<string, string>()
         {
             { "--acckey", nameof(AccountKey) },
@@ -17,18 +23,29 @@ namespace BackupAzureBlobStorage.Core
 
         public static void Init(string[] args)
         {
-            var temp = args
-                .Select(x => x.Split('=', StringSplitOptions.RemoveEmptyEntries))
-                .Where(x => x.Any())
-                .Select(x => new string[2]
-                {
-                    x[0],
-                    x.ElementAtOrDefault(1)
-                })
-                .ToDictionary(x => x[0], x => x[1])
-                .Join(ArgsList, argsDict => argsDict.Key, x => x.Key, (argsDict, x) => argsDict);
+            var validArgsIndexes = new List<int>();
 
-            foreach (var item in temp)
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (ArgsList.ContainsKey(args[i]))
+                {
+                    validArgsIndexes.Add(i);
+                }
+            }
+
+            var argumentItems = new Dictionary<string, string>();
+
+            foreach (var validArgsIndex in validArgsIndexes)
+            {
+                var key = args[validArgsIndex];
+                var value = !validArgsIndexes.Contains(validArgsIndex + 1)
+                    ? args.ElementAtOrDefault(validArgsIndex + 1)
+                    : null;
+
+                argumentItems.Add(key, value);
+            }
+
+            foreach (var item in argumentItems)
             {
                 var prop = typeof(ArgumentsList).GetProperty(ArgsList[item.Key]);
 
@@ -52,11 +69,5 @@ namespace BackupAzureBlobStorage.Core
                 prop.SetValue(null, parseDict[prop.PropertyType].Invoke(item.Value));
             }
         }
-
-        public static string AccountName { get; private set; }
-        public static string AccountKey { get; private set; }
-        public static TargetType Target { get; private set; }
-        public static string TargetPath { get; private set; }
-        public static bool DoShowHelp { get; private set; }
     }
 }

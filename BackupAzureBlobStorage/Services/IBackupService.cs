@@ -3,6 +3,6 @@
     public interface IBackupService
     {
         bool BackupStorage
-            (string accountName, string accountKey,  string target);
+            (string target);
     }
 }

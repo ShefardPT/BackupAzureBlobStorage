@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using BackupAzureBlobStorage.Core;
+using BackupAzureBlobStorage.Exceptions;
 using BackupAzureBlobStorage.Services;
 
 namespace BackupAzureBlobStorage
@@ -37,22 +39,21 @@ namespace BackupAzureBlobStorage
 
             try
             {
-                backupService.BackupStorage
-                       (ArgumentsList.AccountName, ArgumentsList.AccountKey, ArgumentsList.TargetPath);
+                backupService.BackupStorage(ArgumentsList.TargetPath);
             }
             // TODO Handle exceptions
+            catch (PathArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
             catch (Exception ex)
             {
-
-                throw;
+                Console.WriteLine(ex.Message);
+                return;
             }
 
-
-
-
-
-            Console.ReadLine();
+            Console.WriteLine("Success!");
         }
-
     }
 }
