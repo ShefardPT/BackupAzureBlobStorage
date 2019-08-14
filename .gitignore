@@ -1,3 +1,4 @@
 ﻿/.vs/BackupAzureBlobStorage
 /BackupAzureBlobStorage/bin/Debug/netcoreapp2.1
 /BackupAzureBlobStorage/obj
+/BackupAzureBlobStorage/Properties
