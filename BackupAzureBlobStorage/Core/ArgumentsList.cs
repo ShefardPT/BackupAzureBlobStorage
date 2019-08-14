@@ -6,17 +6,17 @@ namespace BackupAzureBlobStorage.Core
 {
     public static class ArgumentsList
     {
+        public static Dictionary<string, string> ArgsList = new Dictionary<string, string>()
+        {
+            { "--acckey", nameof(AccountKey) },
+            { "--accname", nameof(AccountName) },
+            { "--target", nameof(Target) },
+            { "--targetpath", nameof(TargetPath) },
+            { "--help", nameof(DoShowHelp) }
+        };
+
         public static void Init(string[] args)
         {
-            var argsList = new Dictionary<string, string>()
-            {
-                { "--acckey", nameof(AccountKey) },
-                { "--accname", nameof(AccountName) },
-                { "--target", nameof(Target) },
-                { "--targetpath", nameof(TargetPath) },
-                { "--help", nameof(DoShowHelp) }
-            };
-
             var temp = args
                 .Select(x => x.Split('=', StringSplitOptions.RemoveEmptyEntries))
                 .Where(x => x.Any())
@@ -26,11 +26,11 @@ namespace BackupAzureBlobStorage.Core
                     x.ElementAtOrDefault(1)
                 })
                 .ToDictionary(x => x[0], x => x[1])
-                .Join(argsList, argsDict => argsDict.Key, x => x.Key, (argsDict, x) => argsDict);
+                .Join(ArgsList, argsDict => argsDict.Key, x => x.Key, (argsDict, x) => argsDict);
 
             foreach (var item in temp)
             {
-                var prop = typeof(ArgumentsList).GetProperty(argsList[item.Key]);
+                var prop = typeof(ArgumentsList).GetProperty(ArgsList[item.Key]);
 
                 if (prop == null)
                 {

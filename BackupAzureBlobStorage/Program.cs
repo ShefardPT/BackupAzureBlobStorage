@@ -32,8 +32,20 @@ namespace BackupAzureBlobStorage
                 return;
             }
 
+            var backupServiceProvider = new BackupServiceProvider();
+            var backupService = backupServiceProvider.GetBackupService(ArgumentsList.Target);
 
+            try
+            {
+                backupService.BackupStorage
+                       (ArgumentsList.AccountName, ArgumentsList.AccountKey, ArgumentsList.TargetPath);
+            }
+            // TODO Handle exceptions
+            catch (Exception ex)
+            {
 
+                throw;
+            }
 
 
 
